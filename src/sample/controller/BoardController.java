@@ -5,17 +5,19 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import sample.primitive.CircleFigure;
 import sample.primitive.Figure;
 import sample.primitive.LineFigure;
 import sample.primitive.RectangleFigure;
+
+import java.io.File;
 
 
 public class BoardController {
@@ -24,19 +26,7 @@ public class BoardController {
     private AnchorPane anchorPane;
 
     @FXML
-    BorderPane borderPane;
-
-    @FXML
     private Canvas canvas;
-
-    @FXML
-    private TextField brushSize;
-
-    @FXML
-    private ColorPicker colorPicker;
-
-    @FXML
-    private CheckBox eraser;
 
     @FXML
     private Text shape;
@@ -53,46 +43,28 @@ public class BoardController {
     @FXML
     private TextField yTwo;
 
-    @FXML
-    private HBox bottom;
+    FileChooser fileChooser;
 
-
-    GraphicsContext g;
-    Figure figure;
+    private GraphicsContext g;
+    private Figure figure;
 
     double x1, y1;
+    double x2, y2;
 
     public void initialize() {
-        anchorPane.prefWidthProperty().addListener((ov, oldValue, newValue) ->
-                canvas.setWidth(newValue.doubleValue())
-        );
-
-        anchorPane.prefHeightProperty().addListener((ov, oldValue, newValue) ->
-                canvas.setHeight(newValue.doubleValue() - 9 * bottom.getHeight())
-        );
         canvas.setCursor(Cursor.CROSSHAIR);
-        canvas.setOnMousePressed(event -> {
-            x1 = event.getX();
-            y1 = event.getY();
-            System.out.println("setOnMousePressed:\t" + x1 + "\t" + y1);
-        });
-        canvas.setOnMouseReleased(event -> {
-            figure.draw(x1, y1, event.getX(), event.getY());
-            System.out.println("setOnMouseReleased:\t" + event.getX() + "\t" + event.getY());
-            xOne.setText(Double.toString(x1));
-            yOne.setText(Double.toString(y1));
-            xTwo.setText(Double.toString(event.getX()));
-            yTwo.setText(Double.toString(event.getY()));
-        });
         g = canvas.getGraphicsContext2D();
-        figure = new LineFigure(g);
-        shape.setText("LINIA");
+        drawLine(null);
         g.setLineWidth(1);
-        System.out.println(canvas.getWidth() + " " + canvas.getHeight());
+        fileChooser = new FileChooser();
+        fileChooser.setTitle("Otwórzcie plik");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PPM6 P3", "*.ppm6", "*.p3"),
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
     }
 
     @FXML
-    public void handleSubmitButtonAction(ActionEvent actionEvent) {
+    public void drawLine(ActionEvent actionEvent) {
         figure = new LineFigure(g);
         shape.setText("LINIA");
     }
@@ -110,6 +82,39 @@ public class BoardController {
     }
 
     @FXML
+    protected void canvasMousePressed(MouseEvent event) {
+        x1 = event.getX();
+        y1 = event.getY();
+    }
+
+    @FXML
+    protected void canvasMouseDragged(MouseEvent event) {
+        setCoordinates(event);
+        updateValues();
+    }
+
+
+    @FXML
+    protected void canvasMouseReleased(MouseEvent event) {
+        setCoordinates(event);
+        updateValues();
+        figure.draw(x1, y1, x2, y2);
+    }
+
+    private void setCoordinates(MouseEvent event) {
+        x2 = event.getX();
+        y2 = event.getY();
+    }
+
+    //FIXME użyć StringProperty
+    private void updateValues() {
+        xOne.setText(Double.toString(x1));
+        yOne.setText(Double.toString(y1));
+        xTwo.setText(Double.toString(x2));
+        yTwo.setText(Double.toString(y2));
+    }
+
+    @FXML
     protected void drawWithValues(ActionEvent actionEvent) {
         figure.drawWithValues(Double.parseDouble(xOne.getText()),
                 Double.parseDouble(yOne.getText()),
@@ -117,5 +122,12 @@ public class BoardController {
                 Double.parseDouble(yTwo.getText()));
     }
 
-
+    @FXML
+    protected void openFile(ActionEvent event) {
+        File selectedFile = fileChooser.showOpenDialog((Stage) anchorPane.getScene().getWindow());
+        Image image = new Image("file:" + selectedFile.getAbsolutePath());
+        canvas.setWidth(image.getWidth());
+        canvas.setHeight(image.getHeight());
+        g.drawImage(image, 0, 0);
+    }
 }

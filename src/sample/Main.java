@@ -5,11 +5,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import sample.format_image.PPM;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        PPM ppm = new PPM("C:\\Users\\R\\Desktop\\PoissonImageEditing-master\\images\\fish.ppm");
 
         AnchorPane root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         Scene scene = new Scene(root);
@@ -20,6 +23,8 @@ public class Main extends Application {
 
         root.prefWidthProperty().bind(scene.widthProperty());
         root.prefHeightProperty().bind(scene.heightProperty());
+
+
     }
 
 

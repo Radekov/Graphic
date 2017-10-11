@@ -9,8 +9,8 @@
             prefHeight="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="sample.controller.BoardController">
     <children>
-        <BorderPane fx:id="borderPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
 
             <top>
                 <VBox>
@@ -19,7 +19,7 @@
                             <menus>
                                 <Menu text="_Plik">
                                     <items>
-                                        <MenuItem text="_Otwórz"/>
+                                        <MenuItem onAction="#openFile" text="_Otwórz"/>
                                         <MenuItem text="_Zapisz"/>
                                     </items>
                                 </Menu>
@@ -63,8 +63,7 @@
                                         <TextField fx:id="brushSize" text="18"/>
                                         <ColorPicker fx:id="colorPicker"/>
                                         <CheckBox fx:id="eraser"/>
-                                        <Button fx:id="line" onAction="#handleSubmitButtonAction" prefHeight="50"
-                                                prefWidth="50">
+                                        <Button fx:id="line" onAction="#drawLine" prefHeight="50" prefWidth="50">
                                             <graphic>
                                                 <ImageView>
                                                     <image>
@@ -96,24 +95,23 @@
                                 </HBox>
                             </items>
                         </ToolBar>
+                        <HBox>
+                            <children>
+                                <Text fx:id="shape"/>
+                                <TextField fx:id="xOne"/>
+                                <TextField fx:id="yOne"/>
+                                <TextField fx:id="xTwo"/>
+                                <TextField fx:id="yTwo"/>
+                                <Button onAction="#drawWithValues" text="Rysuj"/>
+                            </children>
+                        </HBox>
                     </children>
                 </VBox>
             </top>
             <center>
-                <Canvas fx:id="canvas" height="358.0" width="624.0"/>
+                <Canvas fx:id="canvas" height="358.0" onMouseDragged="#canvasMouseDragged"
+                        onMousePressed="#canvasMousePressed" onMouseReleased="#canvasMouseReleased" width="624.0"/>
             </center>
-            <bottom>
-                <HBox fx:id="bottom">
-                    <children>
-                        <Text fx:id="shape"/>
-                        <TextField fx:id="xOne"/>
-                        <TextField fx:id="yOne"/>
-                        <TextField fx:id="xTwo"/>
-                        <TextField fx:id="yTwo"/>
-                        <Button onAction="#drawWithValues" text="Rysuj"/>
-                    </children>
-                </HBox>
-            </bottom>
         </BorderPane>
     </children>
 </AnchorPane>
