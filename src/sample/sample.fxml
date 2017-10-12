@@ -8,92 +8,65 @@
 <AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200.0"
             prefHeight="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="sample.controller.BoardController">
-    <children>
         <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                     AnchorPane.topAnchor="0.0">
 
             <top>
                 <VBox>
-                    <children>
                         <MenuBar>
-                            <menus>
                                 <Menu text="_Plik">
-                                    <items>
                                         <MenuItem onAction="#openFile" text="_Otwórz"/>
                                         <MenuItem text="_Zapisz"/>
-                                    </items>
                                 </Menu>
                                 <Menu text="_Konwersja">
-                                    <items>
                                         <MenuItem text="_CMYK -&gt; RGB"/>
                                         <MenuItem text="_RGB -&gt; CMYK"/>
-                                    </items>
                                 </Menu>
                                 <Menu text="_Rysuj">
-                                    <items>
                                         <MenuItem text="_Kostka RGB"/>
                                         <MenuItem text="_Stożek HSV"/>
-                                    </items>
                                 </Menu>
                                 <Menu text="_Edytuj">
-                                    <items>
                                         <MenuItem text="_Dodaj/Odejmij"/>
                                         <MenuItem text="_Mnożenie"/>
                                         <MenuItem text="D_zielenie"/>
                                         <MenuItem text="Zmiana _jasności"/>
                                         <MenuItem text="_Przejście do skali szarości"/>
-                                    </items>
                                 </Menu>
                                 <Menu text="_Filtry">
-                                    <items>
                                         <MenuItem text="_Wygłądzający"/>
                                         <MenuItem text="_Medianowy"/>
                                         <MenuItem text="_Wykrywanie krawędzi"/>
                                         <MenuItem text="_Górnoprzepustowy wyostrzający"/>
                                         <MenuItem text="_Rozmycie gaussowskie"/>
                                         <MenuItem text="_Splot maski"/>
-                                    </items>
                                 </Menu>
-                            </menus>
                         </MenuBar>
                         <ToolBar>
-                            <items>
                                 <HBox alignment="CENTER" spacing="5">
-                                    <children>
-                                        <TextField fx:id="brushSize" text="18"/>
-                                        <ColorPicker fx:id="colorPicker"/>
-                                        <CheckBox fx:id="eraser"/>
-                                        <Button fx:id="line" onAction="#drawLine" prefHeight="50" prefWidth="50">
+                                    <Button onAction="#drawLine" prefHeight="50" prefWidth="50">
                                             <graphic>
                                                 <ImageView>
-                                                    <image>
                                                         <Image url="@../../line.png"/>
-                                                    </image>
                                                 </ImageView>
                                             </graphic>
                                         </Button>
-                                        <Button fx:id="rectangle" onAction="#drawRectangle" prefHeight="32"
-                                                prefWidth="32">
+                                    <Button onAction="#drawRectangle" prefHeight="32"
+                                            prefWidth="32">
                                             <graphic>
                                                 <ImageView>
-                                                    <image>
                                                         <Image url="@../../rectangle.png"/>
-                                                    </image>
                                                 </ImageView>
                                             </graphic>
                                         </Button>
-                                        <Button fx:id="circle" onAction="#drawCircle" prefHeight="32" prefWidth="32">
+                                    <Button onAction="#drawCircle" prefHeight="32" prefWidth="32">
                                             <graphic>
                                                 <ImageView>
-                                                    <image>
                                                         <Image url="@../../circle.png"/>
-                                                    </image>
                                                 </ImageView>
                                             </graphic>
                                         </Button>
-                                    </children>
                                 </HBox>
-                            </items>
                         </ToolBar>
                         <HBox>
                             <children>
@@ -105,7 +78,6 @@
                                 <Button onAction="#drawWithValues" text="Rysuj"/>
                             </children>
                         </HBox>
-                    </children>
                 </VBox>
             </top>
             <center>
@@ -113,5 +85,4 @@
                         onMousePressed="#canvasMousePressed" onMouseReleased="#canvasMouseReleased" width="624.0"/>
             </center>
         </BorderPane>
-    </children>
 </AnchorPane>

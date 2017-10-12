@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import sample.format_image.PPM;
 import sample.primitive.CircleFigure;
 import sample.primitive.Figure;
 import sample.primitive.LineFigure;
@@ -43,24 +43,28 @@ public class BoardController {
     @FXML
     private TextField yTwo;
 
-    FileChooser fileChooser;
+    private FileChooser fileChooser;
 
     private GraphicsContext g;
     private Figure figure;
 
-    double x1, y1;
-    double x2, y2;
+    private double x1, y1;
+    private double x2, y2;
 
     public void initialize() {
+        anchorPane.prefWidthProperty().addListener((ov, oldValue, newValue) -> canvas.setWidth(newValue.doubleValue()));
+        anchorPane.prefHeightProperty().addListener((ov, oldValue, newValue) -> canvas.setHeight(newValue.doubleValue()));
         canvas.setCursor(Cursor.CROSSHAIR);
         g = canvas.getGraphicsContext2D();
-        drawLine(null);
+        figure = new LineFigure(g);
+        shape.setText("LINIA");
         g.setLineWidth(1);
+        drawLine(null);
         fileChooser = new FileChooser();
         fileChooser.setTitle("Otwórzcie plik");
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("PPM6 P3", "*.ppm6", "*.p3"),
-                new FileChooser.ExtensionFilter("All Files", "*.*"));
+                new FileChooser.ExtensionFilter("PPM6 P3", "*.ppm"),
+                new FileChooser.ExtensionFilter("JPG JPEG", "*.jpg", "*.jpeg"));
     }
 
     @FXML
@@ -124,10 +128,37 @@ public class BoardController {
 
     @FXML
     protected void openFile(ActionEvent event) {
-        File selectedFile = fileChooser.showOpenDialog((Stage) anchorPane.getScene().getWindow());
-        Image image = new Image("file:" + selectedFile.getAbsolutePath());
-        canvas.setWidth(image.getWidth());
-        canvas.setHeight(image.getHeight());
-        g.drawImage(image, 0, 0);
+        File selectedFile = fileChooser.showOpenDialog(anchorPane.getScene().getWindow());
+        switch (getFileExtension(selectedFile)) {
+            case "PPM":
+                drawPPMToCanva(selectedFile);
+                break;
+            case "JPG":
+            case "JPEG":
+                Image image = new Image("file:" + selectedFile.getAbsolutePath());
+                canvas.setHeight(image.getHeight());
+                canvas.setWidth(image.getWidth());
+                g.drawImage(image, 0, 0);
+                break;
+        }
+
     }
+
+    private void drawPPMToCanva(File file) {
+        try {
+            PPM ppm = new PPM(file.getAbsolutePath(), canvas);
+        } catch (Exception e) {
+            //TODO wyśweitl bład
+            System.out.println("blad");
+            e.printStackTrace();
+        }
+    }
+
+    private static String getFileExtension(File file) {
+        String fileName = file.getName();
+        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+            return fileName.substring(fileName.lastIndexOf(".") + 1).toUpperCase();
+        else return "";
+    }
+
 }
