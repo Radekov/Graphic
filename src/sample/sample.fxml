@@ -6,40 +6,40 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200.0"
-            prefHeight="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            prefHeight="500.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="sample.controller.BoardController">
-        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                    AnchorPane.topAnchor="0.0">
+    <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="0.0">
 
             <top>
                 <VBox>
                         <MenuBar>
                                 <Menu text="_Plik">
-                                        <MenuItem onAction="#openFile" text="_Otwórz"/>
-                                        <MenuItem text="_Zapisz"/>
+                                    <MenuItem onAction="#openFile" text="_Otwórz"/>
+                                    <MenuItem onAction="#saveFile" text="_Zapisz"/>
                                 </Menu>
                                 <Menu text="_Konwersja">
-                                        <MenuItem text="_CMYK -&gt; RGB"/>
-                                        <MenuItem text="_RGB -&gt; CMYK"/>
+                                    <MenuItem text="_CMYK -&gt; RGB"/>
+                                    <MenuItem text="_RGB -&gt; CMYK"/>
                                 </Menu>
                                 <Menu text="_Rysuj">
-                                        <MenuItem text="_Kostka RGB"/>
-                                        <MenuItem text="_Stożek HSV"/>
+                                    <MenuItem text="_Kostka RGB"/>
+                                    <MenuItem text="_Stożek HSV"/>
                                 </Menu>
                                 <Menu text="_Edytuj">
-                                        <MenuItem text="_Dodaj/Odejmij"/>
-                                        <MenuItem text="_Mnożenie"/>
-                                        <MenuItem text="D_zielenie"/>
-                                        <MenuItem text="Zmiana _jasności"/>
-                                        <MenuItem text="_Przejście do skali szarości"/>
+                                    <MenuItem text="_Dodaj/Odejmij"/>
+                                    <MenuItem text="_Mnożenie"/>
+                                    <MenuItem text="D_zielenie"/>
+                                    <MenuItem text="Zmiana _jasności"/>
+                                    <MenuItem text="_Przejście do skali szarości"/>
                                 </Menu>
                                 <Menu text="_Filtry">
-                                        <MenuItem text="_Wygłądzający"/>
-                                        <MenuItem text="_Medianowy"/>
-                                        <MenuItem text="_Wykrywanie krawędzi"/>
-                                        <MenuItem text="_Górnoprzepustowy wyostrzający"/>
-                                        <MenuItem text="_Rozmycie gaussowskie"/>
-                                        <MenuItem text="_Splot maski"/>
+                                    <MenuItem text="_Wygłądzający"/>
+                                    <MenuItem text="_Medianowy"/>
+                                    <MenuItem text="_Wykrywanie krawędzi"/>
+                                    <MenuItem text="_Górnoprzepustowy wyostrzający"/>
+                                    <MenuItem text="_Rozmycie gaussowskie"/>
+                                    <MenuItem text="_Splot maski"/>
                                 </Menu>
                         </MenuBar>
                         <ToolBar>
@@ -47,22 +47,21 @@
                                     <Button onAction="#drawLine" prefHeight="50" prefWidth="50">
                                             <graphic>
                                                 <ImageView>
-                                                        <Image url="@../../line.png"/>
+                                                    <Image url="@../../line.png"/>
                                                 </ImageView>
                                             </graphic>
                                         </Button>
-                                    <Button onAction="#drawRectangle" prefHeight="32"
-                                            prefWidth="32">
+                                    <Button onAction="#drawRectangle" prefHeight="32" prefWidth="32">
                                             <graphic>
                                                 <ImageView>
-                                                        <Image url="@../../rectangle.png"/>
+                                                    <Image url="@../../rectangle.png"/>
                                                 </ImageView>
                                             </graphic>
                                         </Button>
                                     <Button onAction="#drawCircle" prefHeight="32" prefWidth="32">
                                             <graphic>
                                                 <ImageView>
-                                                        <Image url="@../../circle.png"/>
+                                                    <Image url="@../../circle.png"/>
                                                 </ImageView>
                                             </graphic>
                                         </Button>
@@ -81,8 +80,10 @@
                 </VBox>
             </top>
             <center>
-                <Canvas fx:id="canvas" height="358.0" onMouseDragged="#canvasMouseDragged"
-                        onMousePressed="#canvasMousePressed" onMouseReleased="#canvasMouseReleased" width="624.0"/>
+                <ScrollPane fx:id="mainPane">
+                    <Canvas fx:id="canvas" height="358.0" onMouseDragged="#canvasMouseDragged"
+                            onMousePressed="#canvasMousePressed" onMouseReleased="#canvasMouseReleased" width="624.0"/>
+                </ScrollPane>
             </center>
         </BorderPane>
 </AnchorPane>

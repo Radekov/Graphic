@@ -1,26 +1,39 @@
 package sample.format_image;
 
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.paint.Color;
 
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public class PPM {
 
-    private FormatFile formatFile;
+    int maxValue;
+    private BufferedImage bufferedImage;
 
     private int width, height;
+    private FormatFile formatFile;
 
-    private Canvas canvas;
-
-    public PPM(String filename, Canvas canvas) throws IOException {
-        this.canvas = canvas;
-        System.out.println("Rozpoczęcie czytania pliku: ");
-        long start = System.currentTimeMillis();
+    public PPM(String filename, Canvas canvas) throws Exception {
         BufferedInputStream bis = new BufferedInputStream(new FileInputStream(filename));
+        readHeader(bis);
+        System.out.println("Rozpoczęcie czytania pliku");
+        long start = System.currentTimeMillis();
+        switch (formatFile) {
+            case P3:
+                readPictureP3(bis);
+                break;
+            case P6:
+                readPictureP6(bis);
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("Skończenie pliku w: " + (end - start));
+        bis.close();
+    }
+
+    private void readHeader(BufferedInputStream bis) throws IOException, UnsupportedEncodingException {
+        System.out.println("Rozpoczęcie czytania nagłówku pliku: ");
+        long start = System.currentTimeMillis();
         @SuppressWarnings("deprecation")
         StreamTokenizer st = new StreamTokenizer(bis);
         st.commentChar('#');
@@ -31,86 +44,71 @@ public class PPM {
         }
         st.nextToken();
         width = (int) Math.round(st.nval);
-        canvas.setWidth(width);
         st.nextToken();
         height = (int) Math.round(st.nval);
-        canvas.setHeight(height);
         st.nextToken();
-        int maxVal = (int) Math.round(st.nval);
-        if (maxVal != 255)
-            throw new UnsupportedEncodingException("Nie napisałem tego, żeby wspierało innej wartości niż 255. Co je?");
-
-        long end;
-        switch (formatFile) {
-            case P3:
-                readPictureP3(bis);
-                end = System.currentTimeMillis();
-                System.out.println("Skończenie pliku w: " + (end - start));
-                break;
-            case P6:
-                end = System.currentTimeMillis();
-                readPictureP6(bis);
-                System.out.println("Skończenie pliku w: " + (end - start));
-        }
-        bis.close();
+        maxValue = (char) (Math.round(st.nval) & 0xFFFF);
+        if (maxValue != 0xFFFF && maxValue != 0xFF)
+            throw new UnsupportedEncodingException("Nie napisałem tego, żeby wspierało innej wartości niż 255 czy 65535. Co je? " + maxValue);
+        bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+        long end = System.currentTimeMillis();
+        System.out.println("Skończenie nagłówka pliku w: " + (end - start));
     }
 
-    private void readPictureP3(BufferedInputStream bis) throws IOException {
-        PixelWriter pw = canvas.getGraphicsContext2D().getPixelWriter();
+    private BufferedImage readPictureP3(BufferedInputStream bis) throws Exception {
+        //FIXME problemo w wydajności najpewniej leży po  stronie Scanner
         Scanner scanner = new Scanner(bis);
-        Pattern pattern = Pattern.compile("^#.*");
-        int[] color = new int[3];
-        int whichColor = 0;
+        scanner.useDelimiter("\\D+");
+        int r, g, b;
         int w = 0, h = 0;
         while (scanner.hasNext()) {
-            if (scanner.hasNext(pattern)) {
-                scanner.next();
-            } else {
-                color[whichColor] = scanner.nextInt();
-                whichColor = (whichColor + 1) % 3;
+            r = (int) (scanner.nextInt() * 255. / maxValue);
+            g = (int) (scanner.nextInt() * 255. / maxValue);
+            b = (int) (scanner.nextInt() * 255. / maxValue);
+            if ((r > maxValue) || g > maxValue || b > maxValue) {
+                System.out.println("OLABOGA");
+                System.out.println("Znaleziono:\n\tr: " + r + "\n\tg: " + g + "\n\tb: " + b);
+                throw new Exception("Jakiś tam jeszcze wymyślę, że w pliku jakaś nie taka liczba");
             }
-            if (whichColor == 0) {
-                pw.setColor(w, h, Color.rgb(color[0], color[1], color[2]));
-                w = (w + 1) % width;
-                if (w == 0) {
-                    h++;
-                }
-            }
+            bufferedImage.setRGB(w, h, (r << 16) + (g << 8) + b);
+            w = (w + 1) % width;
+            if (w == 0) h++;
         }
         scanner.close();
+        return bufferedImage;
     }
 
     private void readPictureP6(BufferedInputStream bis) throws IOException {
-        PixelWriter pw = canvas.getGraphicsContext2D().getPixelWriter();
         byte[] line = new byte[width * 3];
         int h = -1;
-        while (bis.available() != 0) {
+        int r, g, b;
+        while (bis.available() != 0 && h < height - 1) {
             h++;
             int count = bis.read(line);
             if (count != line.length)
                 System.out.println("ups liczba wczytanych bitów jest różna niż się spodziewano\nSpodziewano: " + line.length + "\nDostano: " + count);
             for (int i = 0, w = 0; i < line.length; i = i + 3, w++) {
-                int r = line[i] & 0xFF;
-                int g = line[i + 1] & 0xFF;
-                int b = line[i + 2] & 0xFF;
-                pw.setColor(w, h, Color.rgb(r, g, b));
-
+                r = line[i] & 0xFF;
+                g = line[i + 1] & 0xFF;
+                b = line[i + 2] & 0xFF;
+                try {
+                    bufferedImage.setRGB(w, h, (r << 16) + (g << 8) + b);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw e;
+                }
             }
         }
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
+    public BufferedImage getBufferedImage() {
+        return bufferedImage;
     }
 
     private enum FormatFile {
         P3("P3"), P6("P6");
 
-        private String formatFile;
+        private final String formatFile;
 
         FormatFile(String formatFile) {
             this.formatFile = formatFile;
@@ -129,6 +127,4 @@ public class PPM {
             return null;
         }
     }
-
-    private enum Now {RED, GREEN, BLUE}
 }
