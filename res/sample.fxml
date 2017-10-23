@@ -23,7 +23,7 @@
                                     <MenuItem text="_RGB -&gt; CMYK"/>
                                 </Menu>
                                 <Menu text="_Rysuj">
-                                    <MenuItem text="_Kostka RGB"/>
+                                    <MenuItem onAction="#openCube" text="_Kostka RGB"/>
                                     <MenuItem text="_Stożek HSV"/>
                                 </Menu>
                                 <Menu text="_Edytuj">
@@ -47,24 +47,25 @@
                                     <Button onAction="#drawLine" prefHeight="50" prefWidth="50">
                                             <graphic>
                                                 <ImageView>
-                                                    <Image url="@../../line.png"/>
+                                                    <Image url="@../line.png"/>
                                                 </ImageView>
                                             </graphic>
                                         </Button>
                                     <Button onAction="#drawRectangle" prefHeight="32" prefWidth="32">
                                             <graphic>
                                                 <ImageView>
-                                                    <Image url="@../../rectangle.png"/>
+                                                    <Image url="@../rectangle.png"/>
                                                 </ImageView>
                                             </graphic>
                                         </Button>
                                     <Button onAction="#drawCircle" prefHeight="32" prefWidth="32">
                                             <graphic>
                                                 <ImageView>
-                                                    <Image url="@../../circle.png"/>
+                                                    <Image url="@../circle.png"/>
                                                 </ImageView>
                                             </graphic>
                                         </Button>
+                                    <Button onAction="#openCustomColorDialog"></Button>
                                 </HBox>
                         </ToolBar>
                         <HBox>

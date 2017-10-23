@@ -70,7 +70,7 @@ public class PPM {
                 System.out.println("Znaleziono:\n\tr: " + r + "\n\tg: " + g + "\n\tb: " + b);
                 throw new Exception("Jakiś tam jeszcze wymyślę, że w pliku jakaś nie taka liczba");
             }
-            bufferedImage.setRGB(w, h, (r << 16) + (g << 8) + b);
+            bufferedImage.setRGB(w, h, (r << 16) | (g << 8) | b);
             w = (w + 1) % width;
             if (w == 0) h++;
         }
@@ -92,7 +92,7 @@ public class PPM {
                 g = line[i + 1] & 0xFF;
                 b = line[i + 2] & 0xFF;
                 try {
-                    bufferedImage.setRGB(w, h, (r << 16) + (g << 8) + b);
+                    bufferedImage.setRGB(w, h, (r << 16) | (g << 8) | b);
                 } catch (Exception e) {
                     e.printStackTrace();
                     throw e;

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane prefHeight="122.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/8.0.121"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.RgbCmykController">
+
+    <HBox>
+        <VBox>
+            <HBox>
+                <Label>Czerwony</Label>
+                <Slider fx:id="sred" blockIncrement="1.0" max="255.0"/>
+                <Label fx:id="red"/>
+            </HBox>
+            <HBox>
+                <Label>Zielony</Label>
+                <Slider fx:id="sgreen" blockIncrement="1.0" max="255.0"/>
+                <Label fx:id="green"/>
+            </HBox>
+            <HBox>
+                <Label>Niebieski</Label>
+                <Slider fx:id="sblue" blockIncrement="1.0" max="255.0"/>
+                <Label fx:id="blue"/>
+            </HBox>
+        </VBox>
+        <Canvas fx:id="rectColor" height="200" width="100"/>
+        <VBox>
+            <HBox>
+                <Label>Błekitny</Label>
+                <Slider fx:id="scyan" blockIncrement="1.0" max="100.0"/>
+                <Label fx:id="cyan"/>
+            </HBox>
+            <HBox>
+                <Label>Magenta</Label>
+                <Slider fx:id="smagenta" blockIncrement="1.0" max="100.0"/>
+                <Label fx:id="magenta"/>
+            </HBox>
+            <HBox>
+                <Label>Żółty</Label>
+                <Slider fx:id="syellow" blockIncrement="1.0" max="100.0"/>
+                <Label fx:id="yellow"/>
+            </HBox>
+            <HBox>
+                <Label>Czarny</Label>
+                <Slider fx:id="sblack" blockIncrement="1.0" max="100.0"/>
+                <Label fx:id="black"/>
+            </HBox>
+        </VBox>
+    </HBox>
+</AnchorPane>

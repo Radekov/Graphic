@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        AnchorPane root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        AnchorPane root = FXMLLoader.load(getClass().getResource("../sample.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setTitle("Program Radka");
         primaryStage.setScene(scene);
