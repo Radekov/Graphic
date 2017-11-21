@@ -46,15 +46,12 @@ public class RgbCmykController {
                 g = sgreen.getValue() / 255.0,
                 b = sblue.getValue() / 255.0;
 
-//        setCMYKValue(cyanSpinner, (1 - getRGBValue(redSpinner) - getCMYKValue(blackSpinner)) / (1 - getCMYKValue(blackSpinner)));
-//        setCMYKValue(magentaSpinner, (1 - getRGBValue(greenSpinner) - getCMYKValue(blackSpinner)) / (1 - getCMYKValue(blackSpinner)));
-//        setCMYKValue(yellowSpinner, (1 - getRGBValue(blueSpinner) - getCMYKValue(blackSpinner)) / (1 - getCMYKValue(blackSpinner)));
 
         double k = (Math.min(1 - r, Math.min(1 - g, 1 - b)));
-        sblack.setValue(Math.round(100 * k));
-        scyan.setValue(Math.round(100 * (1 - r - k) / (1 - k)));
-        smagenta.setValue(Math.round(100 * (1 - g - k) / (1 - k)));
-        syellow.setValue(Math.round(100 * (1 - b - k) / (1 - k)));
+        sblack.setValue(Math.round(100. * k));
+        scyan.setValue(Math.round(100. * (1 - r - k) / (1 - k)));
+        smagenta.setValue(Math.round(100. * (1 - g - k) / (1 - k)));
+        syellow.setValue(Math.round(100. * (1 - b - k) / (1 - k)));
 
         updateLabels();
 
@@ -66,9 +63,9 @@ public class RgbCmykController {
                 y = syellow.getValue(),
                 k = sblack.getValue();
 
-        int r = (int) Math.round(255 * (1 - Math.min(1, c / 100.0 * (1 - k / 100.0) + k / 100.)));
-        int g = (int) Math.round(255 * (1 - Math.min(1, m / 100.0 * (1 - k / 100.0) + k / 100.)));
-        int b = (int) Math.round(255 * (1 - Math.min(1, y / 100.0 * (1 - k / 100.0) + k / 100.)));
+        int r = (int) Math.round(255. * (1 - Math.min(1, c / 100.0 * (1 - k / 100.0) + k / 100.)));
+        int g = (int) Math.round(255. * (1 - Math.min(1, m / 100.0 * (1 - k / 100.0) + k / 100.)));
+        int b = (int) Math.round(255. * (1 - Math.min(1, y / 100.0 * (1 - k / 100.0) + k / 100.)));
 
         sred.setValue(r);
         sgreen.setValue(g);

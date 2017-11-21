@@ -19,19 +19,16 @@
                                     <MenuItem onAction="#saveFile" text="_Zapisz"/>
                                 </Menu>
                                 <Menu text="_Konwersja">
-                                    <MenuItem text="_CMYK -&gt; RGB"/>
-                                    <MenuItem text="_RGB -&gt; CMYK"/>
+                                    <MenuItem onAction="#openCustomColorDialog" text="_RGB -&gt; CMYK"/>
                                 </Menu>
                                 <Menu text="_Rysuj">
                                     <MenuItem onAction="#openCube" text="_Kostka RGB"/>
                                     <MenuItem text="_Stożek HSV"/>
                                 </Menu>
                                 <Menu text="_Edytuj">
-                                    <MenuItem text="_Dodaj/Odejmij"/>
-                                    <MenuItem text="_Mnożenie"/>
-                                    <MenuItem text="D_zielenie"/>
-                                    <MenuItem text="Zmiana _jasności"/>
-                                    <MenuItem text="_Przejście do skali szarości"/>
+                                    <MenuItem onAction="#openAddSubstractDialog" text="_Dodaj/Odejmij/Mnóż/Dziel"/>
+                                    <MenuItem onAction="#openLightDialog" text="Zmiana _jasności"/>
+                                    <MenuItem onAction="#openGrayLevelDialog" text="_Przejście do skali szarości"/>
                                 </Menu>
                                 <Menu text="_Filtry">
                                     <MenuItem text="_Wygłądzający"/>
@@ -47,25 +44,24 @@
                                     <Button onAction="#drawLine" prefHeight="50" prefWidth="50">
                                             <graphic>
                                                 <ImageView>
-                                                    <Image url="@../line.png"/>
+                                                    <Image url="@../../line.png"/>
                                                 </ImageView>
                                             </graphic>
                                         </Button>
                                     <Button onAction="#drawRectangle" prefHeight="32" prefWidth="32">
                                             <graphic>
                                                 <ImageView>
-                                                    <Image url="@../rectangle.png"/>
+                                                    <Image url="@../../rectangle.png"/>
                                                 </ImageView>
                                             </graphic>
                                         </Button>
                                     <Button onAction="#drawCircle" prefHeight="32" prefWidth="32">
                                             <graphic>
                                                 <ImageView>
-                                                    <Image url="@../circle.png"/>
+                                                    <Image url="@../../circle.png"/>
                                                 </ImageView>
                                             </graphic>
                                         </Button>
-                                    <Button onAction="#openCustomColorDialog"></Button>
                                 </HBox>
                         </ToolBar>
                         <HBox>

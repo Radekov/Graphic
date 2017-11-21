@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefHeight="400.0" prefWidth="600.0">
+    <VBox>
+        <HBox>
+            <fx:define>
+                <ToggleGroup fx:id="toggleGroup"/>
+            </fx:define>
+            <RadioButton text="Średnia" toggleGroup="$toggleGroup" userData="AVERAGE" selected="true"/>
+            <RadioButton text="YUV" toggleGroup="$toggleGroup" userData="YUV"/>
+        </HBox>
+        <HBox>
+            <Button onAction="#manipulatePicture">Zrób</Button>
+            <Button onAction="#cancel">Anuluj</Button>
+        </HBox>
+    </VBox>
+</AnchorPane>

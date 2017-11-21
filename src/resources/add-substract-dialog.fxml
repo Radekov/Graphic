@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+    <VBox>
+        <HBox>
+            <Label>R:</Label>
+            <TextField fx:id="red" text="0.0"/>
+            <Label>G:</Label>
+            <TextField fx:id="green" text="0.0"/>
+            <Label>B:</Label>
+            <TextField fx:id="blue" text="0.0"/>
+        </HBox>
+        <HBox>
+            <fx:define>
+                <ToggleGroup fx:id="toggleGroup"/>
+            </fx:define>
+            <RadioButton text="Dodawanie" toggleGroup="$toggleGroup" userData="ADD" selected="true"/>
+            <RadioButton text="Różnica" toggleGroup="$toggleGroup" userData="SUBSTRACT"/>
+            <RadioButton text="Mnożenie" toggleGroup="$toggleGroup" userData="MULTIPLY"/>
+            <RadioButton text="Dzielenie" toggleGroup="$toggleGroup" userData="DIVIDE"/>
+        </HBox>
+        <HBox>
+            <Button onAction="#manipulatePicture">Zrób</Button>
+            <Button onAction="#cancel">Anuluj</Button>
+        </HBox>
+    </VBox>
+</AnchorPane>

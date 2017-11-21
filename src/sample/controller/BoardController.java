@@ -19,40 +19,44 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sample.controller.dialog.AddSubtractDialogController;
+import sample.controller.dialog.DialogController;
+import sample.controller.dialog.GrayLevelDialog;
+import sample.controller.dialog.LightDialogController;
+import sample.enums.GrayLevelMethod;
+import sample.enums.Mode;
 import sample.format_image.PPM;
 import sample.primitive.CircleFigure;
 import sample.primitive.Figure;
 import sample.primitive.LineFigure;
 import sample.primitive.RectangleFigure;
+import sample.utils.ModifyImage;
 
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 
-public class BoardController {
+public class BoardController extends AbstractController {
 
-    @FXML
-    private AnchorPane anchorPane;
+    @FXML private AnchorPane anchorPane;
 
-    @FXML
-    private Canvas canvas;
+    @FXML private Canvas canvas;
 
-    @FXML
-    private Text shape;
+    @FXML private Text shape;
 
-    @FXML
-    private TextField xOne;
+    @FXML private TextField xOne;
 
-    @FXML
-    private TextField yOne;
+    @FXML private TextField yOne;
 
-    @FXML
-    private TextField xTwo;
+    @FXML private TextField xTwo;
 
-    @FXML
-    private TextField yTwo;
+    @FXML private TextField yTwo;
 
     private FileChooser openFileChooser;
     private FileChooser saveFileChooser;
@@ -63,7 +67,7 @@ public class BoardController {
     private double x1, y1;
     private double x2, y2;
 
-    public void initialize() {
+    public void initialize(URL url, ResourceBundle rb) {
 //        anchorPane.prefWidthProperty().addListener((ov, oldValue, newValue) -> {canvas.setWidth(newValue.doubleValue())});
 //        anchorPane.prefHeightProperty().addListener((ov, oldValue, newValue) -> {canvas.setHeight(newValue.doubleValue())});
         canvas.setCursor(Cursor.CROSSHAIR);
@@ -230,5 +234,78 @@ public class BoardController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void openAddSubstractDialog(ActionEvent event) {
+        Map<String, Object> resultMap = openDialog(new AddSubtractDialogController(), "/add-substract-dialog.fxml");
+        Double[] c = (Double[]) resultMap.get("colorArray");
+        Mode m = (Mode) resultMap.get("mode");
+        modifyForegroundImage(c, m);
+    }
+
+    @FXML
+    private void openLightDialog(ActionEvent event) {
+        Map<String, Object> resultMap = openDialog(new LightDialogController(), "/light-dialog.fxml");
+        Double[] c = (Double[]) resultMap.get("colorArray");
+        Mode m = (Mode) resultMap.get("mode");
+        modifyForegroundImage(c, m);
+    }
+
+    @FXML
+    private void openGrayLevelDialog(ActionEvent event) {
+        Map<String, Object> resultMap = openDialog(new GrayLevelDialog(), "/gray-level-dialog.fxml");
+        GrayLevelMethod m = (GrayLevelMethod) resultMap.get("method");
+        modifyGrayLevelForegroundImage(m);
+    }
+
+    private Map<String, Object> openDialog(DialogController controller, String file) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(file));
+        // initializing the controller
+        loader.setController(controller);
+        Parent layout;
+        try {
+            layout = loader.load();
+            Scene scene = new Scene(layout);
+            // this is the popup stage
+            Stage popupStage = new Stage();
+            // Giving the popup controller access to the popup stage (to allow the controller to close the stage)
+            controller.setStage(popupStage);
+            if (this.main != null) {
+                popupStage.initOwner(main.getPrimaryStage());
+            }
+            popupStage.initModality(Modality.WINDOW_MODAL);
+            popupStage.setScene(scene);
+            popupStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return controller.getResult();
+    }
+
+    private void modifyForegroundImage(Double[] c, Mode m) {
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        WritableImage wi = canvas.snapshot(params, null);
+        ModifyImage modifyImage = new ModifyImage(wi.getPixelReader(), (int) wi.getWidth(), (int) wi.getHeight());
+        long start = System.currentTimeMillis();
+        modifyImage.modifySelf(c, m);
+        g.drawImage(modifyImage, 0, 0);
+        long end = System.currentTimeMillis();
+        System.out.println(end - start);
+    }
+
+    private void modifyGrayLevelForegroundImage(GrayLevelMethod m) {
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        WritableImage wi = canvas.snapshot(params, null);
+        ModifyImage modifyImage = new ModifyImage(wi.getPixelReader(), (int) wi.getWidth(), (int) wi.getHeight());
+        long start = System.currentTimeMillis();
+        modifyImage.modifySelfGrayLevel(m);
+        g.drawImage(modifyImage, 0, 0);
+        long end = System.currentTimeMillis();
+        System.out.println(end - start);
+    }
+
 
 }
