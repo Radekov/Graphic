@@ -29,14 +29,7 @@
                                     <MenuItem onAction="#openAddSubstractDialog" text="_Dodaj/Odejmij/Mnóż/Dziel"/>
                                     <MenuItem onAction="#openLightDialog" text="Zmiana _jasności"/>
                                     <MenuItem onAction="#openGrayLevelDialog" text="_Przejście do skali szarości"/>
-                                </Menu>
-                                <Menu text="_Filtry">
-                                    <MenuItem text="_Wygłądzający"/>
-                                    <MenuItem text="_Medianowy"/>
-                                    <MenuItem text="_Wykrywanie krawędzi"/>
-                                    <MenuItem text="_Górnoprzepustowy wyostrzający"/>
-                                    <MenuItem text="_Rozmycie gaussowskie"/>
-                                    <MenuItem text="_Splot maski"/>
+                                    <MenuItem onAction="#openFilterDialog" text="_Filtry"/>
                                 </Menu>
                         </MenuBar>
                         <ToolBar>

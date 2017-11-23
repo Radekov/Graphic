@@ -21,10 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sample.controller.dialog.AddSubtractDialogController;
-import sample.controller.dialog.DialogController;
-import sample.controller.dialog.GrayLevelDialog;
-import sample.controller.dialog.LightDialogController;
+import sample.controller.dialog.*;
 import sample.enums.GrayLevelMethod;
 import sample.enums.Mode;
 import sample.format_image.PPM;
@@ -33,6 +30,7 @@ import sample.primitive.Figure;
 import sample.primitive.LineFigure;
 import sample.primitive.RectangleFigure;
 import sample.utils.ModifyImage;
+import sample.utils.filters.FilterType;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -256,6 +254,13 @@ public class BoardController extends AbstractController {
         Map<String, Object> resultMap = openDialog(new GrayLevelDialog(), "/gray-level-dialog.fxml");
         GrayLevelMethod m = (GrayLevelMethod) resultMap.get("method");
         modifyGrayLevelForegroundImage(m);
+    }
+
+    @FXML
+    private void openFilterDialog(ActionEvent event) {
+        Map<String, Object> resultMap = openDialog(new FilterSelectDialogController(), "/filter-select-dialog.fxml");
+        FilterType filterType = (FilterType) resultMap.get("filterType");
+//        filterImage(filterType);
     }
 
     private Map<String, Object> openDialog(DialogController controller, String file) {

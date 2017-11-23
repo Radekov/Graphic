@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+    <VBox>
+        <HBox>
+            <TableView fx:id="matrix" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                       minWidth="-Infinity"/>
+            <VBox>
+                <ChoiceBox fx:id="choiceFilter" onAction="#changeSelected">
+                </ChoiceBox>
+            </VBox>
+        </HBox>
+        <HBox>
+            <Button onAction="#manipulatePicture">Zrób</Button>
+        </HBox>
+    </VBox>
+</AnchorPane>
