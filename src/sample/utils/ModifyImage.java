@@ -1,8 +1,6 @@
 package sample.utils;
 
-import javafx.scene.image.PixelReader;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritableImage;
+import javafx.scene.image.*;
 import javafx.scene.paint.Color;
 import sample.enums.GrayLevelMethod;
 import sample.enums.Mode;
@@ -90,5 +88,42 @@ public class ModifyImage extends WritableImage {
                 return new ModifyGrayLevelYUV();
         }
         return null;
+    }
+
+    public static ModifyImage getImageGrayScale(Image image) {
+        ModifyImage modifyImage = new ModifyImage((int) image.getWidth(), (int) image.getHeight());
+        PixelWriter pw = modifyImage.getPixelWriter();
+        PixelReader pr = image.getPixelReader();
+        ModifyGrayLevel m = modifyImage.getModifyImage(GrayLevelMethod.YUV);
+
+        for (int i = 0; i < image.getWidth(); i++) {
+            for (int j = 0; j < image.getHeight(); j++) {
+                pw.setColor(i, j, m.calculateNewGrayPixel(pr.getColor(i, j)));
+            }
+        }
+        return modifyImage;
+    }
+
+    public ModifyImage modifyLightSelf(byte[] l) {
+        byte[][] lut = {l, l, l};
+        int width = (int) this.getWidth();
+        int height = (int) this.getHeight();
+        byte[] buffer = new byte[width * height * 4];
+
+        PixelReader pixelReader = this.getPixelReader();
+        pixelReader.getPixels(0, 0, width, height, WritablePixelFormat.getByteBgraPreInstance(), buffer, 0, width * 4);
+
+        int r = 2, g = 1, b = 0;
+        for (int i = 0; i < buffer.length; i += 4) {
+            buffer[i + b] = lut[b][buffer[i + b] & 0xFF];
+            buffer[i + g] = lut[g][buffer[i + g] & 0xFF];
+            buffer[i + r] = lut[r][buffer[i + r] & 0xFF];
+        }
+
+        PixelWriter pixelWriter = this.getPixelWriter();
+        pixelWriter.setPixels(0, 0, width, height, PixelFormat.getByteBgraPreInstance(), buffer, 0, width * 4);
+        return this;
+
+
     }
 }

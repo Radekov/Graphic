@@ -30,6 +30,7 @@
                                     <MenuItem onAction="#openLightDialog" text="Zmiana _jasności"/>
                                     <MenuItem onAction="#openGrayLevelDialog" text="_Przejście do skali szarości"/>
                                     <MenuItem onAction="#openFilterDialog" text="_Filtry"/>
+                                    <MenuItem onAction="#openHistogramDialog" text="_Histogram"/>
                                 </Menu>
                         </MenuBar>
                         <ToolBar>

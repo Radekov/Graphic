@@ -29,7 +29,7 @@ public class GrayLevelDialog extends AbstractDialogController {
     }
 
     public void cancel(ActionEvent event) {
-
+        closeStage();
     }
 
 

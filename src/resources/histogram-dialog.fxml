@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+
+    <VBox>
+        <children>
+            <BarChart fx:id="histogramChart" barGap="0.0" categoryGap="0.0">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT"/>
+                </yAxis>
+            </BarChart>
+        </children>
+        <HBox>
+            <Button onAction="#stretchPicture">rozszerzenie</Button>
+            <Button onAction="#equalizationPicture">wyrównanie</Button>
+            <Button onAction="#cancel">Anuluj</Button>
+        </HBox>
+    </VBox>
+</AnchorPane>

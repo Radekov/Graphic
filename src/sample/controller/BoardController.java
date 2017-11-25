@@ -31,6 +31,7 @@ import sample.primitive.LineFigure;
 import sample.primitive.RectangleFigure;
 import sample.utils.ModifyImage;
 import sample.utils.filters.*;
+import sample.utils.histogram.Histogram;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -358,5 +359,22 @@ public class BoardController extends AbstractController {
         params.setFill(Color.TRANSPARENT);
         WritableImage image = filter.filter(canvas.snapshot(params, null));
         g.drawImage(image, 0, 0);
+    }
+
+    @FXML
+    private void openHistogramDialog(ActionEvent event) {
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        WritableImage wi = canvas.snapshot(params, null);
+        ModifyImage modifyImage = new ModifyImage(wi.getPixelReader(), (int) wi.getWidth(), (int) wi.getHeight());
+        Map<String, Object> resultMap = openDialog(new HistogramDialogController(wi), "/histogram-dialog.fxml");
+        Histogram histogram = (Histogram) resultMap.get("histogram");
+        switch ((Integer) resultMap.get("method")) {
+            case 0:
+                g.drawImage(histogram.equalizeHistogram(modifyImage), 0, 0);
+                break;
+            case 1:
+                g.drawImage(histogram.stretchImageHistogram(modifyImage), 0, 0);
+        }
     }
 }
