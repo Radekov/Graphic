@@ -30,7 +30,7 @@ import sample.primitive.Figure;
 import sample.primitive.LineFigure;
 import sample.primitive.RectangleFigure;
 import sample.utils.ModifyImage;
-import sample.utils.filters.FilterType;
+import sample.utils.filters.*;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -256,12 +256,6 @@ public class BoardController extends AbstractController {
         modifyGrayLevelForegroundImage(m);
     }
 
-    @FXML
-    private void openFilterDialog(ActionEvent event) {
-        Map<String, Object> resultMap = openDialog(new FilterSelectDialogController(), "/filter-select-dialog.fxml");
-        FilterType filterType = (FilterType) resultMap.get("filterType");
-//        filterImage(filterType);
-    }
 
     private Map<String, Object> openDialog(DialogController controller, String file) {
         FXMLLoader loader = new FXMLLoader();
@@ -312,5 +306,57 @@ public class BoardController extends AbstractController {
         System.out.println(end - start);
     }
 
+    @FXML
+    private void openFilterDialog(ActionEvent event) {
+        Map<String, Object> resultMap = openDialog(new FilterSelectDialogController(), "/filter-select-dialog.fxml");
+        FilterType filterType = (FilterType) resultMap.get("filterType");
+        filterImage(filterType);
+    }
 
+    private void filterImage(FilterType filterType) {
+        Filter filter = AverageFilter.averraFilter3x3();
+        switch (filterType) {
+            case AVERAGING_3x3:
+                filter = AverageFilter.averraFilter3x3();
+                break;
+            case AVERAGING_5x5:
+                filter = AverageFilter.averraFilter5x5();
+                break;
+            case AVERAGING_7x7:
+                filter = AverageFilter.averraFilter7x7();
+                break;
+            case MEDIAN:
+                filter = new MedianFilter();
+                break;
+            case SOBEL_HORIZONTAL:
+                filter = SobelFilter.horizontalSobel();
+                break;
+            case SOBEL_VERTICAL:
+                filter = SobelFilter.verticalSobel();
+                break;
+            case UNSHARP:
+                break;
+            case GAUSS_1:
+                filter = GaussFilter.gauss1();
+                break;
+            case GAUSS_2:
+                filter = GaussFilter.gauss2();
+                break;
+            case GAUSS_3:
+                filter = GaussFilter.gauss3();
+                break;
+            case GAUSS_4:
+                filter = GaussFilter.gauss4();
+                break;
+            case GAUSS_5:
+                filter = GaussFilter.gauss5();
+                break;
+            case SPLOT:
+                break;
+        }
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        WritableImage image = filter.filter(canvas.snapshot(params, null));
+        g.drawImage(image, 0, 0);
+    }
 }
