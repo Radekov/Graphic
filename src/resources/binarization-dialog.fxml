@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml">
+
+    <VBox>
+        <HBox>
+            <Label fx:id="label">Próg</Label>
+            <TextField fx:id="value" text="0.0"/>
+        </HBox>
+        <HBox>
+            <fx:define>
+                <ToggleGroup fx:id="toggleGroup"/>
+            </fx:define>
+            <RadioButton text="Manualna" toggleGroup="$toggleGroup" userData="MANUAL" selected="true"/>
+            <RadioButton text="Procentowa selekcja czarnego" toggleGroup="$toggleGroup"
+                         userData="PERCENT_BLACK_SELECTION"/>
+            <RadioButton text="Selekcja iteratywna średniej" toggleGroup="$toggleGroup"
+                         userData="MEAN_ITERATIVE_SELECTION"/>
+            <RadioButton text="Selekcja entropii" toggleGroup="$toggleGroup" userData="ENTROPY_SELECTION"/>
+            <RadioButton text="Błąd Minimalny" toggleGroup="$toggleGroup" userData="MINIMUM_ERROR"/>
+            <RadioButton text="Metoda rozmytego błędu minimalnego" toggleGroup="$toggleGroup"
+                         userData="FUZZY_MINIMUM_ERROR"/>
+        </HBox>
+        <HBox>
+            <Button onAction="#manipulatePicture">Zrób</Button>
+            <Button onAction="#cancel">Anuluj</Button>
+        </HBox>
+    </VBox>
+</AnchorPane>

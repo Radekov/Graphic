@@ -30,6 +30,7 @@ import sample.primitive.Figure;
 import sample.primitive.LineFigure;
 import sample.primitive.RectangleFigure;
 import sample.utils.ModifyImage;
+import sample.utils.binarization.*;
 import sample.utils.filters.*;
 import sample.utils.histogram.Histogram;
 
@@ -376,5 +377,29 @@ public class BoardController extends AbstractController {
             case 1:
                 g.drawImage(histogram.stretchImageHistogram(modifyImage), 0, 0);
         }
+    }
+
+    @FXML
+    private void openBinarizationDialog(ActionEvent event) {
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        WritableImage wi = canvas.snapshot(params, null);
+        Map<String, Object> resultMap = openDialog(new BinarizationDialogController(), "/binarization-dialog.fxml");
+        BinarizationType type = (BinarizationType) resultMap.get("mode");
+        Integer val = 0;
+        if (type.equals(BinarizationType.MANUAL) || type.equals(BinarizationType.PERCENT_BLACK_SELECTION))
+            val = (Integer) resultMap.get("value");
+        Binarization b = new MeanIterativeBinarization();
+        switch (type) {
+            case MANUAL:
+                b = new ManualBinarization(val);
+                break;
+            case PERCENT_BLACK_SELECTION:
+                b = new PercentBlackBinarization(val);
+                break;
+            case MEAN_ITERATIVE_SELECTION:
+                b = new MeanIterativeBinarization();
+        }
+        g.drawImage(b.binarize(wi), 0, 0);
     }
 }
