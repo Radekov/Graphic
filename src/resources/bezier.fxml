@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sample.controller.BezierController">
+
+    <BorderPane fx:id="borderPane">
+        <top>
+            <VBox>
+                <HBox>
+                    <VBox>
+                        <Label fx:id="preciseInfo">Dokładność:</Label>
+                        <Slider fx:id="precise" blockIncrement="1.0" majorTickUnit="1.0" max="11.0" min="2.0"
+                                minorTickCount="0" showTickMarks="true" snapToTicks="true" value="3.0"/>
+                    </VBox>
+                    <VBox>
+                        <Label fx:id="powerInfo">Stopień:</Label>
+                        <TextField fx:id="power">3</TextField>
+                    </VBox>
+                </HBox>
+            </VBox>
+        </top>
+        <right>
+            <VBox>
+                <children>
+                    <ListView fx:id="listView"/>
+                </children>
+            </VBox>
+        </right>
+        <center>
+            <Canvas fx:id="canvasCurve" height="500.0" width="500.0"/>
+        </center>
+    </BorderPane>
+</AnchorPane>

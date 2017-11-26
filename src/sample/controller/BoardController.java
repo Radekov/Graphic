@@ -220,6 +220,11 @@ public class BoardController extends AbstractController {
         openWindow("rgb_cmyk.fxml");
     }
 
+    @FXML
+    protected void openBezierWindow(ActionEvent event) {
+        openWindow("bezier.fxml");
+    }
+
     private void openWindow(String file) {
         Parent root;
         try {
