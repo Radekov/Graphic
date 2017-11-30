@@ -228,6 +228,11 @@ public class BoardController extends AbstractController {
         openWindow("bezier.fxml");
     }
 
+    @FXML
+    protected void open2DWindow(ActionEvent event) {
+        openWindow("2D.fxml");
+    }
+
     private void openWindow(String file) {
         Parent root;
         try {

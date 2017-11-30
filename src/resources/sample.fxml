@@ -65,6 +65,8 @@
                                         </Button>
                                     <Button onAction="#openBezierWindow" prefHeight="32" prefWidth="32">Bezier
                                     </Button>
+                                    <Button onAction="#open2DWindow" prefHeight="32" prefWidth="32">Bezier
+                                    </Button>
                                 </HBox>
                         </ToolBar>
                         <HBox>
