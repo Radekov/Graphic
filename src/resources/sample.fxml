@@ -33,6 +33,12 @@
                                     <MenuItem onAction="#openHistogramDialog" text="_Histogram"/>
                                     <MenuItem onAction="#openBinarizationDialog" text="_Binaryzacja"/>
                                 </Menu>
+                            <Menu text="_Morfologia">
+                                <MenuItem onAction="#openDilationDialog" text="Dylatacja"/>
+                                <MenuItem onAction="#openErosionDialog" text="Erozja"/>
+                                <MenuItem onAction="#openOpeningDialog" text="Otwarcie"/>
+                                <MenuItem onAction="#openClosingDialog" text="Zamknięcie"/>
+                            </Menu>
                         </MenuBar>
                         <ToolBar>
                                 <HBox alignment="CENTER" spacing="5">

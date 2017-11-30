@@ -33,11 +33,14 @@ import sample.utils.ModifyImage;
 import sample.utils.binarization.*;
 import sample.utils.filters.*;
 import sample.utils.histogram.Histogram;
+import sample.utils.morphology.Morphology;
+import sample.utils.morphology.MorphologyMatrix;
 
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -407,4 +410,47 @@ public class BoardController extends AbstractController {
         }
         g.drawImage(b.binarize(wi), 0, 0);
     }
+
+    private Map<String, Object> openMorphDialog(DialogController controller) {
+        return openDialog(controller, "/morph-matrix-dialog.fxml");
+    }
+
+    @FXML
+    private void openDilationDialog(ActionEvent event) {
+        Map<String, Object> resultMap = openMorphDialog(new MorphMatrixDialogController());
+        MorphologyMatrix matrix = new MorphologyMatrix((List<List<Boolean>>) resultMap.get("matrix"));
+        g.drawImage(Morphology.getInstance().dilation(getImage(), matrix), 0, 0);
+
+    }
+
+    @FXML
+    private void openErosionDialog(ActionEvent event) {
+        Map<String, Object> resultMap = openMorphDialog(new MorphMatrixDialogController());
+        MorphologyMatrix matrix = new MorphologyMatrix((List<List<Boolean>>) resultMap.get("matrix"));
+        g.drawImage(Morphology.getInstance().erosion(getImage(), matrix), 0, 0);
+
+    }
+
+    @FXML
+    private void openOpeningDialog(ActionEvent event) {
+        Map<String, Object> resultMap = openMorphDialog(new MorphMatrixDialogController());
+        MorphologyMatrix matrix = new MorphologyMatrix((List<List<Boolean>>) resultMap.get("matrix"));
+        g.drawImage(Morphology.getInstance().opening(getImage(), matrix), 0, 0);
+
+    }
+
+    @FXML
+    private void openClosingDialog(ActionEvent event) {
+        Map<String, Object> resultMap = openMorphDialog(new MorphMatrixDialogController());
+        MorphologyMatrix matrix = new MorphologyMatrix((List<List<Boolean>>) resultMap.get("matrix"));
+        g.drawImage(Morphology.getInstance().closing(getImage(), matrix), 0, 0);
+
+    }
+
+    private WritableImage getImage() {
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        return canvas.snapshot(params, null);
+    }
+
 }

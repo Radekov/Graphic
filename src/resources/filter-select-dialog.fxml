@@ -7,8 +7,7 @@
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
     <VBox>
         <HBox>
-            <TableView fx:id="matrix" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                       minWidth="-Infinity"/>
+            <TableView fx:id="matrix"/>
             <VBox>
                 <ChoiceBox fx:id="choiceFilter" onAction="#changeSelected">
                 </ChoiceBox>
